@@ -5,7 +5,7 @@ import org.example.notetaker.dto.NoteDTO;
 import java.util.List;
 
 public sealed interface NoteBO permits NoteBOIMPL{
-    String saveData(NoteDTO noteDTO);
+    String saveNote(NoteDTO noteDTO);
     boolean updateNote(String noteId, NoteDTO noteDTO);
     boolean deleteNote(String noteId);
     NoteDTO getSelectedNote(String noteId);

@@ -1,13 +1,17 @@
 package org.example.notetaker.bo;
 
 import org.example.notetaker.dto.NoteDTO;
+import org.example.notetaker.util.AppUtil;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public final class NoteBOIMPL implements NoteBO{
     @Override
-    public String saveData(NoteDTO noteDTO) {
-        return "";
+    public String saveNote(NoteDTO noteDTO) {
+        noteDTO.setNoteId(AppUtil.createNoteId());
+        System.out.println(noteDTO);
+        return "Saved successfully in BO layer";
     }
 
     @Override
