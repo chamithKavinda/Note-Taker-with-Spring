@@ -30,4 +30,14 @@ public class NoteController {
         System.out.println(noteId);
         return null;
     }
+
+    @PatchMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public void updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
+        System.out.println(noteId);
+        System.out.println(note+ " Updated");
+    }
+    @DeleteMapping
+    public void deleteNote(@PathVariable ("noteId") String noteId) {
+        System.out.println(noteId + " Deleted");
+    }
 }
