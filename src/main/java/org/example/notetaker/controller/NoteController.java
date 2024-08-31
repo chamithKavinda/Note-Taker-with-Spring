@@ -1,9 +1,8 @@
 package org.example.notetaker.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.notetaker.bo.NoteBO;
+import org.example.notetaker.service.NoteService;
 import org.example.notetaker.dto.NoteDTO;
-import org.example.notetaker.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoteController {
     @Autowired
-    private final NoteBO noteBo;
+    private final NoteService noteService;
 
     //Todo: CRUD of the note
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO note) {
-        //Todo: Handle with BO
-        var saveData = noteBo.saveNote(note);
+        //Todo: Handle with service
+        var saveData = noteService.saveNote(note);
         return ResponseEntity.ok(saveData);
     }
 
