@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan("org.example.notetaker")
 @EnableWebMvc
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "org.example.notetaker")
 @EnableTransactionManagement
 public class WebAppRootConfig {
     @Bean
