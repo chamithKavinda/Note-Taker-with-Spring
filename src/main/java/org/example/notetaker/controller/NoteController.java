@@ -32,14 +32,7 @@ public class NoteController {
 
     @GetMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO getNote(@PathVariable ("noteId") String noteId)  {
-        System.out.println(noteId);
-        return new NoteDTO(
-                "NOTE 4f8a0a67-2ebc-41b2-9de6-4e9bcdba65bb",
-                "REST services",
-                "Explain the REST",
-                "P1",
-                "20240818"
-        );
+        return noteService.getSelectedNote(noteId);
     }
 
     @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
