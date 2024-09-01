@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("api/v1/note")
 @RequiredArgsConstructor
 public class NoteController {
+
     @Autowired
     private final NoteService noteService;
 
@@ -40,6 +41,7 @@ public class NoteController {
     public NoteDTO getNote(@PathVariable ("noteId") String noteId)  {
         return noteService.getSelectedNote(noteId);
     }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
