@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("org.example.notetaker")
-@EnableWebMvc
 @EnableJpaRepositories(basePackages = "org.example.notetaker")
 @EnableTransactionManagement
 public class WebAppRootConfig {
@@ -54,7 +53,6 @@ public class WebAppRootConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
-
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory);
         return txManager;
