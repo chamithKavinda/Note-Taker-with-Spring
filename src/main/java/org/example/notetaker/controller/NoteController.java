@@ -40,9 +40,9 @@ public class NoteController {
     public void updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
         noteService.updateNote(noteId, note);
     }
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+
     @DeleteMapping(value ="/{noteId}" )
-    public void deleteNote(@PathVariable ("noteId") String noteId) {
-        noteService.deleteNote(noteId);
+    public ResponseEntity<String> deleteNote(@PathVariable ("noteId") String noteId) {
+        return noteService.deleteNote(noteId) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
