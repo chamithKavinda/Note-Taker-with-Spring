@@ -12,12 +12,6 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        String tempDir = System.getProperty("java.io.tmpdir");
-        registration.setMultipartConfig(new MultipartConfigElement(tempDir));
-    }
-
-    @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{WebAppRootConfig.class};
     }
@@ -30,5 +24,11 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        String tempDir = System.getProperty("java.io.tmpdir");
+        registration.setMultipartConfig(new MultipartConfigElement(tempDir));
     }
 }

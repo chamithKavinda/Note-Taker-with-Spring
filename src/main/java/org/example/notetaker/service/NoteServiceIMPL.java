@@ -56,6 +56,7 @@ public  class NoteServiceIMPL implements NoteService {
 
     @Override
     public NoteDTO getSelectedNote(String noteId) {
+
         return mapping.convertToDTO(noteDao.getReferenceById(noteId));
     }
 
