@@ -1,8 +1,11 @@
 package org.example.notetaker.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.notetaker.dto.UserDTO;
 import org.example.notetaker.service.UserService;
+import org.example.notetaker.util.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,19 +19,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private final UserService userService;
-
-    //save
+    //Save User
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> saveUser(
             @RequestPart("firstName") String firstName,
             @RequestPart ("lastName") String lastName,
             @RequestPart ("email") String email,
             @RequestPart ("password") String password,
-            @RequestPart("profilePic") String profilePic) {
+            @RequestPart ("profilePic") String profilePic) {
 
         // Handle profile pic
-
-
-
+        String base64ProfilePic = AppUtil.toBase64ProfilePic(profilePic);
+        // build the user object
+        UserDTO buildUserDTO = new UserDTO();
+        buildUserDTO.setFirstName(firstName);
+        buildUserDTO.setLastName(lastName);
+        buildUserDTO.setEmail(email);
+        buildUserDTO.setPassword(password);
+        buildUserDTO.setProfilePic(base64ProfilePic);
+        //send to the service layer
+        return new ResponseEntity<>(userService.saveUser(buildUserDTO), HttpStatus.CREATED);
     }
 }
