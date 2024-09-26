@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.notetaker.dao.UserDao;
 import org.example.notetaker.dto.UserDTO;
+import org.example.notetaker.entity.UserEntity;
 import org.example.notetaker.util.AppUtil;
 import org.example.notetaker.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,8 @@ public class UserServiceIMPL implements UserService{
 
     @Override
     public UserDTO getSelectedUser(String userId) {
-        return null;
+        UserEntity userEntityByUserId = userDao.getUserEntityByUserId(userId);
+        return mapping.convertToUserDTO(userEntityByUserId);
     }
 
     @Override
