@@ -2,6 +2,7 @@ package org.example.notetaker.service;
 
 import jakarta.transaction.Transactional;
 import org.example.notetaker.dao.NoteDao;
+import org.example.notetaker.exception.NoteNotFound;
 import org.example.notetaker.impl.NoteDTO;
 import org.example.notetaker.entity.NoteEntity;
 import org.example.notetaker.util.AppUtil;
@@ -28,17 +29,16 @@ public  class NoteServiceIMPL implements NoteService {
     }
 
     @Override
-    public boolean updateNote(String noteId, NoteDTO incomeNoteDTO) {
+    public void updateNote(String noteId, NoteDTO incomeNoteDTO) {
         Optional<NoteEntity> tmpNoteEntity= noteDao.findById(noteId);
         if(!tmpNoteEntity.isPresent()){
-            return false;
+            throw new NoteNotFound("Note not found");
         }else {
             tmpNoteEntity.get().setNoteDesc(incomeNoteDTO.getNoteDesc());
             tmpNoteEntity.get().setNoteTitle(incomeNoteDTO.getNoteTitle());
             tmpNoteEntity.get().setCreateDate(incomeNoteDTO.getCreateDate());
             tmpNoteEntity.get().setPriorityLevel(incomeNoteDTO.getPriorityLevel());
         }
-        return true;
     }
 
     @Override
