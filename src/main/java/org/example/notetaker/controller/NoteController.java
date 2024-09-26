@@ -2,7 +2,7 @@ package org.example.notetaker.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.notetaker.service.NoteService;
-import org.example.notetaker.dto.NoteDTO;
+import org.example.notetaker.impl.NoteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

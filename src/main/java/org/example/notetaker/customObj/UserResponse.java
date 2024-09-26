@@ -1,4 +1,4 @@
 package org.example.notetaker.customObj;
 
-public class UserResponse {
+public interface UserResponse {
 }

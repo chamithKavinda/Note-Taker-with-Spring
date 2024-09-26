@@ -2,16 +2,14 @@ package org.example.notetaker.service;
 
 import jakarta.transaction.Transactional;
 import org.example.notetaker.dao.NoteDao;
-import org.example.notetaker.dto.NoteDTO;
+import org.example.notetaker.impl.NoteDTO;
 import org.example.notetaker.entity.NoteEntity;
 import org.example.notetaker.util.AppUtil;
 import org.example.notetaker.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Optional;
 
 @Service
