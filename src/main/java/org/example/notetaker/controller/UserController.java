@@ -2,6 +2,7 @@ package org.example.notetaker.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.notetaker.customObj.UserResponse;
+import org.example.notetaker.exception.DataPersistFailedException;
 import org.example.notetaker.impl.UserDTO;
 import org.example.notetaker.exception.UserNotFoundException;
 import org.example.notetaker.service.UserService;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserService userService;
     //Save User
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> saveUser(
+    public ResponseEntity<Void> saveUser(
             @RequestPart("firstName") String firstName,
             @RequestPart ("lastName") String lastName,
             @RequestPart ("email") String email,
@@ -30,19 +31,21 @@ public class UserController {
             @RequestPart ("profilePic") String profilePic) {
 
         // Handle profile pic
-        String base64ProfilePic = AppUtil.toBase64ProfilePic(profilePic);
-        // build the user object
-        UserDTO buildUserDTO = new UserDTO();
-        buildUserDTO.setFirstName(firstName);
-        buildUserDTO.setLastName(lastName);
-        buildUserDTO.setEmail(email);
-        buildUserDTO.setPassword(password);
-        buildUserDTO.setProfilePic(base64ProfilePic);
-        //send to the service layer
-        var saveStatus = userService.saveUser(buildUserDTO);
-        if (saveStatus.contains("User saved successfully")){
+        try {
+            String base64ProfilePic = AppUtil.toBase64ProfilePic(profilePic);
+            // build the user object
+            UserDTO buildUserDTO = new UserDTO();
+            buildUserDTO.setFirstName(firstName);
+            buildUserDTO.setLastName(lastName);
+            buildUserDTO.setEmail(email);
+            buildUserDTO.setPassword(password);
+            buildUserDTO.setProfilePic(base64ProfilePic);
+            //send to the service layer
+            userService.saveUser(buildUserDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }else {
+        }catch (DataPersistFailedException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

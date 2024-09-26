@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.notetaker.customObj.UserErrorResponse;
 import org.example.notetaker.customObj.UserResponse;
 import org.example.notetaker.dao.UserDao;
+import org.example.notetaker.exception.DataPersistFailedException;
 import org.example.notetaker.impl.UserDTO;
 import org.example.notetaker.entity.UserEntity;
 import org.example.notetaker.exception.UserNotFoundException;
@@ -25,14 +26,12 @@ public class UserServiceIMPL implements UserService{
     @Autowired
     private final Mapping mapping;
     @Override
-    public String saveUser(UserDTO userDTO) {
+    public void saveUser(UserDTO userDTO) {
         userDTO.setUserId(AppUtil.createUserId());
         UserEntity savedUser =
                 userDao.save(mapping.convertToUserEntity(userDTO));
-        if(savedUser != null && savedUser.getUserId() != null ) {
-            return "User saved successfully";
-        }else {
-            return "Save failed";
+        if(savedUser == null && savedUser.getUserId() == null ) {
+            throw new DataPersistFailedException("Cannot data saved");
         }
     }
 
