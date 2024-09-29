@@ -1,6 +1,8 @@
 package org.example.notetaker.service;
 
 import jakarta.transaction.Transactional;
+import org.example.notetaker.customObj.NoteErrorResponse;
+import org.example.notetaker.customObj.NoteResponse;
 import org.example.notetaker.dao.NoteDao;
 import org.example.notetaker.exception.DataPersistFailedException;
 import org.example.notetaker.exception.NoteNotFound;
@@ -56,9 +58,12 @@ public  class NoteServiceIMPL implements NoteService {
     }
 
     @Override
-    public NoteDTO getSelectedNote(String noteId) {
-
-        return mapping.convertToDTO(noteDao.getReferenceById(noteId));
+    public NoteResponse getSelectedNote(String noteId) {
+        if(noteDao.existsById(noteId)){
+            return mapping.convertToDTO(noteDao.getReferenceById(noteId));
+        }else {
+            return new NoteErrorResponse(0,"Note not found");
+        }
     }
 
     @Override

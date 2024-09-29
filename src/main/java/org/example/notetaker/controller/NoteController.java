@@ -1,6 +1,7 @@
 package org.example.notetaker.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.notetaker.customObj.NoteResponse;
 import org.example.notetaker.exception.DataPersistFailedException;
 import org.example.notetaker.exception.NoteNotFound;
 import org.example.notetaker.service.NoteService;
@@ -44,7 +45,7 @@ public class NoteController {
     }
 
     @GetMapping(value = "/{noteId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public NoteDTO getNote(@PathVariable ("noteId") String noteId)  {
+    public NoteResponse getSelectedNote(@PathVariable ("noteId") String noteId){
         return noteService.getSelectedNote(noteId);
     }
 
