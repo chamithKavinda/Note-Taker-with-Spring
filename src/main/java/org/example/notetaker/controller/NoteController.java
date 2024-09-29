@@ -1,6 +1,7 @@
 package org.example.notetaker.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.notetaker.exception.DataPersistFailedException;
 import org.example.notetaker.exception.NoteNotFound;
 import org.example.notetaker.service.NoteService;
 import org.example.notetaker.impl.NoteDTO;
@@ -20,17 +21,21 @@ public class NoteController {
     @Autowired
     private final NoteService noteService;
 
-    @GetMapping("health")
-    public String healthCheck() {
-        return "Note taker is running";
-    }
-
     //Todo: CRUD of the note
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createNote(@RequestBody NoteDTO note) {
-        //Todo: Handle with service
-        var saveData = noteService.saveNote(note);
-        return ResponseEntity.ok(saveData);
+    public ResponseEntity<Void> createNote(@RequestBody NoteDTO note) {
+        if (note == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else {
+            try {
+                noteService.saveNote(note);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }catch (DataPersistFailedException e){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }catch (Exception e){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 
     @GetMapping(value = "allnotes", produces = MediaType.APPLICATION_JSON_VALUE)
