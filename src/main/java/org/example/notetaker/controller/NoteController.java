@@ -53,12 +53,13 @@ public class NoteController {
     @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
         try {
+            if (note == null && (noteId == null || note.equals(""))){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             noteService.updateNote(noteId, note);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (NoteNotFound e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
